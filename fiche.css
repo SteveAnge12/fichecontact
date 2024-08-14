@@ -1,0 +1,178 @@
+/* Général pour le tableau principal */
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 30px auto; /* Centrer le tableau horizontalement */
+}
+
+/* Style pour les images dans .product-image */
+.product-image img {
+    width: 100%; /* Remplir toute la largeur de la cellule */
+    height: auto; /* Conserve les proportions de l'image */
+    display: block; /* Éliminer les espaces sous l'image */
+}
+
+/* Style pour les colonnes spécifiques */
+.column-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+}
+
+.column-top {
+    font-weight: normal;
+    padding-bottom: 8px;
+    font-size: 20px;
+}
+
+
+.column-bottom {
+    font-weight: bold;
+    padding-top: 8px;
+    font-size: 30px; 
+}
+
+/* Style pour les cellules du tableau */
+th, td {
+    border: 1px solid black; /* Bordure solide */
+    padding: 10px; /* Padding ajusté */
+    text-align: left;
+}
+
+/* Styles pour les cases à cocher */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.checkbox-group div {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px; /* Espacement entre la case à cocher et le texte */
+}
+
+/* Styles pour le formulaire en haut */
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.header-info div {
+    flex: 1;
+    margin: 0 10px; /* Espacement entre les colonnes */
+}
+
+.header-info div.center {
+    text-align: left;
+}
+
+.header-info div.right {
+    text-align: left;
+}
+
+/* Styles pour les inputs */
+.header-info input {
+    width: calc(100% - 16px); /* Assurer que les champs prennent toute la largeur de la colonne, moins le padding */
+    padding: 8px;
+    box-sizing: border-box; /* Inclure le padding dans la largeur totale */
+    border: 1px solid #ccc; /* Bordure légère pour les champs de saisie */
+    border-radius: 4px; /* Coins arrondis pour les champs de saisie */
+    font-size: 15px; /* Taille de police pour les champs de saisie */
+}
+
+/* Spécifique pour les labels */
+.header-info label {
+    display: block; /* Assurer que le label occupe toute la largeur disponible */
+    margin-bottom: 5px; /* Espacement entre le label et le champ de saisie */
+    font-weight: bold; /* Mettre le label en gras */
+}
+
+/* Styles pour le tableau en haut */
+.top-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.top-table th, .top-table td {
+    border: none;
+    padding: 10px;
+    text-align: center; /* Centre le texte à l'intérieur des cellules */
+}
+
+/* Style pour la colonne contenant les informations */
+.info {
+    display: flex;
+    flex-direction: column; /* Empiler les éléments verticalement */
+    justify-content: center; /* Centrer les éléments verticalement dans la cellule */
+    align-items: flex-start; /* Aligner les éléments au début de la cellule */
+    height: 100%; /* Occuper toute la hauteur de la cellule */
+    padding: 10px; /* Ajouter du padding pour l'espacement interne */
+    box-sizing: border-box; /* Inclure le padding dans la largeur totale */
+    width: 100%; /* Assurer que la div occupe toute la largeur de la cellule */
+    font-size: 15px;
+    font-weight: normal;
+}
+
+/* Style pour chaque élément à l'intérieur de .info */
+.info div {
+    margin-bottom: 5px; /* Espacement entre les lignes */
+}
+
+/* Styles pour le formulaire et les tables dans le formulaire */
+form {
+    margin: 10px auto; /* Centrer le formulaire */
+    width: 80%;
+}
+
+form p {
+    font-weight: bold;
+}
+
+form table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+form table td, form table th {
+    border: 1px solid black; /* Bordure solide */
+    padding: 10px;
+}
+
+/* Styles pour les boutons */
+.btn-submit {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Couleur verte */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.btn-submit:hover {
+    background-color: #45a049; /* Couleur verte plus foncée au survol */
+}
+
+/* Style pour le pied de page */
+.footer-note {
+    margin-top: 20px;
+    font-size: 0.9em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo img {
+    height: 30px;
+    margin-left: 10px;
+}
+

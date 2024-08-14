@@ -1,0 +1,321 @@
+<style>
+/* Styles Globaux */
+body {
+    background-color: #004d00; /* Couleur de fond claire pour toute la page */
+}
+
+/* Conteneur pour le Formulaire */
+.form-container {
+    margin: 05px auto; /* Centrer le conteneur du formulaire avec des marges automatiques */
+    padding: 10px;
+    background-color: #ffffff; /* Fond blanc pour le formulaire */
+    border-radius: 0px; /* Coins arrondis */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre subtile pour donner de la profondeur */
+    max-width: 1000px; /* Limiter la largeur du conteneur de formulaire */
+}
+
+/* Styles pour le menu déroulant avec cases à cocher */
+.dropdown-checkbox {
+    position: relative;
+    display: inline-block;
+    width: 1000%;
+}
+
+.dropdown-checkbox-button {
+    background-color: #ffffff;
+    border: 100px solid #ced4da; /* Bordure légère */
+    border-radius: 0px; /* Coins arrondis */
+    padding: 10px;
+    width: 100%; /* Pleine largeur */
+    text-align: left;
+    cursor: pointer; /* Curseur en forme de main au survol */
+}
+
+.dropdown-checkbox-content {
+    display: none; /* Masqué par défaut */
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 100%; /* Assurer que le menu déroulant correspond à la largeur du bouton */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); /* Ombre du menu déroulant */
+    z-index: 1;
+    max-height: 200px; /* Limiter la hauteur avec défilement */
+    overflow-y: auto; /* Défilement lorsque le contenu dépasse */
+    border: 1px solid #ced4da; /* Bordure légère */
+    border-radius: 4px; /* Coins arrondis */
+}
+
+.dropdown-checkbox-content label {
+    display: block;
+    padding: 5px;
+    cursor: pointer; /* Curseur en forme de main au survol */
+}
+
+.dropdown-checkbox-content label:hover {
+    background-color: #f1f1f1; /* Gris clair au survol */
+}
+
+.dropdown-checkbox-content input {
+    margin-right: 10px; /* Espace entre la case à cocher et le label */
+}
+
+.dropdown-checkbox.open .dropdown-checkbox-content {
+    display: block; /* Afficher le contenu lorsque le menu est ouvert */
+}
+
+/* Styles pour les notifications */
+.notification {
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centrer la notification */
+    padding: 20px;
+    border-radius: 5px; /* Coins arrondis */
+    color: #fff;
+    display: none; /* Masqué par défaut */
+    z-index: 1000;
+    font-size: 1.2em; /* Texte plus grand */
+}
+
+.notification.success {
+    background-color: #4CAF50; /* Fond vert pour le succès */
+}
+
+.notification.error {
+    background-color: #f44336; /* Fond rouge pour les erreurs */
+}
+
+.notification.show {
+    display: block; /* Afficher la notification */
+}
+
+.fade-out {
+    animation: fadeOut 3s forwards; /* Animation de fondu enchaîné */
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+/* Note de pied de page */
+.footer-note {
+    margin-top: 10px;
+    font-size: 0.7em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-logo img {
+    height: 30px;
+}
+
+/* Styles pour les boutons */
+.btn-submit {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Fond vert */
+    color: white;
+    border: none;
+    border-radius: 4px; /* Coins arrondis */
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.btn-submit:hover {
+    background-color: #45a049; /* Vert plus foncé au survol */
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Champ supplémentaire */
+.extra-field {
+    display: none; /* Masqué par défaut */
+}
+
+/* En-tête du menu déroulant et contenu */
+.dropdown-header {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f1f1f1; /* Fond gris clair */
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 4px; /* Coins arrondis */
+    margin-bottom: 10px;
+}
+
+.dropdown-header:hover {
+    background-color: #e9e9e9; /* Gris plus foncé au survol */
+}
+
+.dropdown-content {
+    display: none; /* Masqué par défaut */
+    padding: 10px;
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 4px; /* Coins arrondis */
+    background-color: #ffffff; /* Fond blanc */
+}
+
+/* Styles des flèches */
+.arrow {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(45deg);
+    transition: transform 0.3s ease; /* Transition en douceur */
+}
+
+.arrow.down {
+    transform: rotate(45deg); /* Flèche vers le bas */
+}
+
+.arrow.up {
+    transform: rotate(-135deg); /* Flèche vers le haut */
+}
+
+/* Styles du tableau principal */
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 30px auto; /* Centrer le tableau */
+}
+
+/* Style pour les images dans le tableau */
+.product-image img {
+    width: 100%; /* Pleine largeur */
+    height: auto; /* Conserver le ratio de l'image */
+    display: block;
+}
+
+/* Contenu des colonnes */
+.column-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+}
+
+.column-top {
+    font-weight: normal;
+    padding-bottom: 8px;
+    font-size: 20px;
+}
+
+.column-bottom {
+    font-weight: bold;
+    padding-top: 8px;
+    font-size: 30px; 
+}
+
+/* Cellules du tableau */
+th, td {
+    border: 1px solid black; /* Bordure solide */
+    padding: 10px;
+    text-align: left;
+}
+
+/* Groupe de cases à cocher */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espacement entre les cases à cocher */
+}
+
+.checkbox-group div {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-right: 10px; /* Espacement entre la case à cocher et le label */
+}
+
+/* Section d'informations de l'en-tête */
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.header-info div {
+    flex: 1;
+    margin: 0 10px; /* Espacement entre les colonnes */
+}
+
+.header-info div.center, .header-info div.right {
+    text-align: left;
+}
+
+/* Champs de saisie */
+.header-info input {
+    width: calc(100% - 16px); /* Pleine largeur moins le padding */
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc; /* Bordure légère */
+    border-radius: 4px; /* Coins arrondis */
+    font-size: 15px;
+}
+
+.header-info label {
+    display: block;
+    margin-bottom: 5px; /* Espacement entre le label et le champ */
+    font-weight: bold; /* Texte en gras pour le label */
+}
+
+/* Tableau supérieur (dans le formulaire) */
+.top-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.top-table th, .top-table td {
+    border: none;
+    padding: 10px;
+    text-align: center; /* Centrer le texte à l'intérieur des cellules */
+}
+
+/* Colonne d'information */
+.info {
+    display: flex;
+    flex-direction: column; /* Empiler les éléments verticalement */
+    justify-content: center;
+    align-items: flex-start; /* Aligner les éléments au début */
+    height: 100%; /* Occuper toute la hauteur */
+    padding: 10px;
+    box-sizing: border-box;
+    width: 100%; /* Pleine largeur */
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.info div {
+    margin-bottom: 5px; /* Espacement entre les lignes */
+}
+
+/* Styles pour le formulaire */
+form {
+    margin: 10px auto; /* Centrer le formulaire */
+    width: 80%;
+}
+
+form p {
+    font-weight: bold; /* Texte en gras pour les paragraphes */
+}
+
+form table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+form table td, form table th {
+    border: 1px solid black; /* Bordure solide */
+    padding: 10px;
+}
+</style>

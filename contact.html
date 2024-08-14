@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="fich.css"> <!-- Lien vers le fichier CSS externe -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>Fiche de Contact</title>
+    <style>
+        /* Styles Globaux */
+        body {
+            background-color: #004d00; /* Couleur de fond claire pour toute la page */
+        }
+        
+        /* Conteneur pour le Formulaire */
+        .form-container {
+            margin: 05px auto; /* Centrer le conteneur du formulaire avec des marges automatiques */
+            padding: 10px;
+            background-color: #ffffff; /* Fond blanc pour le formulaire */
+            border-radius: 0px; /* Coins arrondis */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Ombre subtile pour donner de la profondeur */
+            max-width: 1000px; /* Limiter la largeur du conteneur de formulaire */
+        }
+        
+        /* Styles pour le menu déroulant avec cases à cocher */
+        .dropdown-checkbox {
+            position: relative;
+            display: inline-block;
+            width: 1000%;
+        }
+        
+        .dropdown-checkbox-button {
+            background-color: #ffffff;
+            border: 100px solid #000205d8; /* Bordure légère */
+            border-radius: 0px; /* Coins arrondis */
+            padding: 10px;
+            width: 100%; /* Pleine largeur */
+            text-align: left;
+            cursor: pointer; /* Curseur en forme de main au survol */
+        }
+        
+        .dropdown-checkbox-content {
+            display: none; /* Masqué par défaut */
+            position: absolute;
+            background-color: #ffffff;
+            min-width: 100%; /* Assurer que le menu déroulant correspond à la largeur du bouton */
+            box-shadow: 0px 8px 16px 0px rgba(230, 5, 5, 0.916); /* Ombre du menu déroulant */
+            z-index: 1;
+            max-height: 200px; /* Limiter la hauteur avec défilement */
+            overflow-y: auto; /* Défilement lorsque le contenu dépasse */
+            border: 1px solid #ced4da; /* Bordure légère */
+            border-radius: 4px; /* Coins arrondis */
+        }
+        
+        .dropdown-checkbox-content label {
+            display: block;
+            padding: 5px;
+            cursor: pointer; /* Curseur en forme de main au survol */
+        }
+        
+        .dropdown-checkbox-content label:hover {
+            background-color: #c41212; /* Gris clair au survol */
+        }
+        
+        .dropdown-checkbox-content input {
+            margin-right: 0px; /* Espace entre la case à cocher et le label */
+        }
+        
+        .dropdown-checkbox.open .dropdown-checkbox-content {
+            display: block; /* Afficher le contenu lorsque le menu est ouvert */
+        }
+        
+        /* Styles pour les notifications */
+        .notification {
+            position: fixed;
+            top: 20%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Centrer la notification */
+            padding: 20px;
+            border-radius: 5px; /* Coins arrondis */
+            color: #fff;
+            display: none; /* Masqué par défaut */
+            z-index: 1000;
+            font-size: 1.2em; /* Texte plus grand */
+        }
+        
+        .notification.success {
+            background-color: #4CAF50; /* Fond vert pour le succès */
+        }
+        
+        .notification.error {
+            background-color: #f44336; /* Fond rouge pour les erreurs */
+        }
+        
+        .notification.show {
+            display: block; /* Afficher la notification */
+        }
+        
+        .fade-out {
+            animation: fadeOut 10s forwards; /* Animation de fondu enchaîné */
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 2; }
+            to { opacity: 1; }
+        }
+        
+        /* Note de pied de page */
+        .footer-note {
+            margin-top: 10px;
+            font-size: 0.8em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-logo img {
+            height: 30px;
+        }
+        
+        /* Styles pour les boutons */
+        .btn-submit {
+            padding: 5px 10px;
+            background-color: #047504; /* Fond vert */
+            color: black;
+            border: none;
+            border-radius: 0px; /* Coins arrondis */
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .btn-submit:hover {
+            background-color: #08cd0f; /* Vert plus foncé au survol */
+        }
+        
+        .text-right {
+            text-align: right;
+        }
+        
+        /* Champ supplémentaire */
+        .extra-field {
+            display: none; /* Masqué par défaut */
+        }
+        
+        /* En-tête du menu déroulant et contenu */
+        .dropdown-header {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color:  #abb8c3; /* Fond gris clair */
+            border: 5px solid #ddd; /* Bordure légère */
+            border-radius: 0px; /* Coins arrondis */
+            margin-bottom: 15px;
+        }
+        
+        .dropdown-header:hover {
+            background-color: #00d084; /* Gris plus foncé au survol */
+        }
+        
+        .dropdown-content {
+            display: none; /* Masqué par défaut */
+            padding: 10px;
+            border: 1px solid #ddd; /* Bordure légère */
+            border-radius: 1px; /* Coins arrondis */
+            background-color: #ffffff; /* Fond blanc */
+        }
+        
+        /* Styles des flèches */
+        
+        
+        .arrow.down {
+            transform: rotate(45deg); /* Flèche vers le bas */
+        }
+        
+        .arrow.up {
+            transform: rotate(-135deg); /* Flèche vers le haut */
+        }
+        
+        /* Styles du tableau principal */
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 30px auto; /* Centrer le tableau */
+        }
+        
+        /* Style pour les images dans le tableau */
+        .product-image img {
+            width: 100%; /* Pleine largeur */
+            height: auto; /* Conserver le ratio de l'image */
+            display: block;
+        }
+        
+        /* Contenu des colonnes */
+        .column-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+        }
+        
+        .column-top {
+            font-weight: normal;
+            padding-bottom: 8px;
+            font-size: 20px;
+        }
+        
+        .column-bottom {
+            font-weight: bold;
+            padding-top: 8px;
+            font-size: 30px; 
+        }
+        
+        /* Cellules du tableau */
+        th, td {
+            border: 1px solid black; /* Bordure solide */
+            padding: 10px;
+            text-align: left;
+        }
+        
+        /* Groupe de cases à cocher */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px; /* Espacement entre les cases à cocher */
+        }
+        
+        .checkbox-group div {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px; /* Espacement entre la case à cocher et le label */
+        }
+        
+        /* Section d'informations de l'en-tête */
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .header-info div {
+            flex: 1;
+            margin: 0 10px; /* Espacement entre les colonnes */
+        }
+        
+        .header-info div.center, .header-info div.right {
+            text-align: left;
+        }
+        
+        /* Champs de saisie */
+        .header-info input {
+            width: calc(100% - 16px); /* Pleine largeur moins le padding */
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc; /* Bordure légère */
+            border-radius: 4px; /* Coins arrondis */
+            font-size: 15px;
+        }
+        
+        .header-info label {
+            display: block;
+            margin-bottom: 5px; /* Espacement entre le label et le champ */
+            font-weight: bold; /* Texte en gras pour le label */
+        }
+        
+         
+        /* Colonne d'information */
+        .info {
+            display: flex;
+            flex-direction: column; /* Empiler les éléments verticalement */
+            justify-content: center;
+            align-items: flex-start; /* Aligner les éléments au début */
+            height: 100%; /* Occuper toute la hauteur */
+            padding: 10px;
+            box-sizing: border-box;
+            width: 100%; /* Pleine largeur */
+            font-size: 15px;
+            font-weight: normal;
+        }
+        
+        .info div {
+            margin-bottom: 3px; /* Espacement entre les lignes */
+        }
+        
+        /* Styles pour le formulaire */
+        form {
+            margin: 5px auto; /* Centrer le formulaire */
+            width: 90%;
+        }
+        
+        form p {
+            font-weight: bold; /* Texte en gras pour les paragraphes */
+        }
+        
+        form table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        
+        form table td, form table th {
+            border: 1px solid black; /* Bordure solide */
+            padding: 5px;
+        }
+        </style>
+    
+</head>
+<body>
+    <div class="container form-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <div class="product-image">
+                            <img src="image.png" alt="Image produit">
+                        </div>
+                    </th>
+                    <th>
+                        <div class="column-content">
+                            <div class="column-top">Processus gestion de l'accueil et des réclamations</div>
+                            <div class="column-bottom">Fiche contact</div>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="info">
+                            <div>Référence : PO1-PR02/ERQ01</div>
+                            <div>Version : 3</div>
+                            <div>Date : 06/08/2024</div>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+        </table>
+        <form action="process_form.php" method="post">
+            <!-- Afficher le message de notification -->
+            <?php if (!empty($message)): ?>
+            <div class="notification <?php echo htmlspecialchars($message_type); ?> fade-out">
+                <?php echo htmlspecialchars($message); ?>
+            </div>
+            <?php endif; ?>
+            <!-- Informations en haut du formulaire -->
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="heure_arrivee" class="font-weight-bold">Heure d'arrivée :</label>
+                    <input type="time" class="form-control" id="heure_arrivee" name="heure_arrivee" readonly required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="date" class="font-weight-bold">Date :</label>
+                    <input type="date" class="form-control" id="date" name="date" readonly>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="numero_ticket" class="font-weight-bold">N° Ticket :</label>
+                    <input type="text" class="form-control" id="numero_ticket" name="numero_ticket" readonly>
+                </div>
+            </div>
+
+            <section>
+                <p>I. IDENTIFICATION DE L'ASSURE</p>
+                <table>
+                    <tr>
+                        <td>
+                            <label for="nom">NOM ET PRENOMS :</label>
+                            <input type="text" class="form-control" id="nom" name="nom" required size="100">
+                            <label for="matricule">MATRICULE / SECU :</label>
+                            <input type="text" class="form-control" id="matricule" name="matricule" required size="170">
+                            <label for="telephone">TELEPHONE :</label>
+                            <input type="text" class="form-control" id="telephone" name="telephone" size="170">
+                            <div>
+                                <label for="nom_representant">NOM DU REPRESENTANT :</label>
+                                <input type="text" class="form-control" id="nom_representant" name="nom_representant">
+                            </div>
+                            <div>
+                                <label for="telephone_representant">TELEPHONE :</label>
+                                <input type="text" class="form-control" id="telephone_representant" name="telephone_representant">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </section>
+
+                        <!-- Section Objet de la Visite -->
+                        <section>
+                            <p>II. OBJET DE LA VISITE</p>
+                            <table>
+                                <!-- Réclamations - première catégorie -->
+                                <div class="dropdown-header" onclick="toggleDropdown('reclamation-content', this)">
+                                    <span><strong>1. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Réclamations</strong></span>
+                                    <span class="arrow down"></span> <!-- Flèche pour indiquer un menu déroulant -->
+                                </div>
+                                <div id="reclamation-content" class="dropdown-content"> <!-- Contenu caché à afficher lors du clic -->
+                                    <div>
+                                        <input type="checkbox" id="reclamation1" name="reclamation[]" value="Arriérés / Retard de pension">
+                                        <label for="reclamation1">Arriérés / Retard de pension</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="reclamation2" name="reclamation[]" value="Contestation sur les droits du bénéficiaire">
+                                        <label for="reclamation2">Contestation sur les droits du bénéficiaire</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="reclamation3" name="reclamation[]" value="Correction sur les mentions d'état civil">
+                                        <label for="reclamation3">Correction sur les mentions d'état civil</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="reclamation4" name="reclamation[]" value="Rectification sur la situation matrimoniale">
+                                        <label for="reclamation4">Rectification sur la situation matrimoniale</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="reclamation5" name="reclamation[]" value="Bon retour">
+                                        <label for="reclamation5">Bon retour</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="reclamation6" name="reclamation[]" value="Niveau de traitement du dossier">
+                                        <label for="reclamation6">Niveau de traitement du dossier</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="reclamation7" name="reclamation[]" value="Demande de regularisation">
+                                        <label for="reclamation7">Demande de regularisation</label>
+                                    </div>
+                                    <!-- Section pour d'autres réclamations, avec champ de texte supplémentaire -->
+                                    <div class="checkbox-text">
+                                        <input type="checkbox" id="reclamation8" name="reclamation[]" value="Autres (précisez)" onclick="toggleField('autre_reclamation')">
+                                        <label for="reclamation8">Autres (précisez) </label>
+                                        <input type="text" class="form-control extra-field" id="autre_reclamation" name="autre_reclamation" placeholder="....................................................">
+                                    </div>
+                                </div>
+                                
+                                <!-- Réclamations de documents / services - deuxième catégorie -->
+                                <div class="dropdown-header" onclick="toggleDropdown('demande-content', this)">
+                                    <span><strong>2. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Réclamations de documents / services</strong></span>
+                                    <span class="arrow down"></span> <!-- Flèche pour indiquer un menu déroulant -->
+                                </div>
+                                <div id="demande-content" class="dropdown-content"> <!-- Contenu caché à afficher lors du clic -->
+                                    <div>
+                                        <input type="checkbox" id="demande1" name="demande[]" value="Nomenclature des pièces">
+                                        <label for="demande1">Nomenclature des pièces</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="demande2" name="demande[]" value="Demande et retrait de carte UBA">
+                                        <label for="demande2">Demande et retrait de carte UBA</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="demande3" name="demande[]" value="Depot de dossier de pension">
+                                        <label for="demande3">Dépot de dossier de pension</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="demande4" name="demande[]" value="Retrait de decision">
+                                        <label for="demande4">Retrait de decision</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="demande5" name="demande[]" value="Depot de documents manquants">
+                                        <label for="demande5">Depot de documents manquants</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="demande6" name="demande[]" value="Reclamation pour Erreur sur la carte">
+                                        <label for="demande6">Reclamation pour Erreur sur la carte</label>
+                                    </div>
+                                    <div>
+                                        <input type="checkbox" id="demande7" name="demande[]" value="Demande attestation d'affiliation">
+                                        <label for="demande7">Demande attestation d'affiliation</label>
+                                    </div>
+                                    <!-- Section pour d'autres réclamations de documents/services, avec champ de texte supplémentaire -->
+                                    <div class="checkbox-text">
+                                        <input type="checkbox" id="demande8" name="demande[]" value="Autres (précisez)" onclick="toggleField('autre_demande')">
+                                        <label for="demande8">Autres (précisez)</label>
+                                        <input type="text" class="form-control extra-field" id="autre_demande" name="autre_demande" placeholder="....................................................">
+                                    </div>
+                                </div>
+                            </table>
+                        </section>            
+            <section>
+                <p>III. PRISE EN CHARGE DE L'ASSURE</p>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="heure_prise_en_charge" class="font-weight-bold">Heure de prise en charge :</label>
+                        <input type="time" class="form-control" id="heure_prise_en_charge" name="heure_prise_en_charge" readonly required>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>
+                                <label for="observations"><strong>Traitemant effectué :</strong></label>
+                                <textarea class="form-control" id="traitement_effectue" name="traitement_effectue" rows="4" cols="50"></textarea> <!-- Champ pour les observations ou commentaires -->
+                                <label for="nom-agent"><strong> Nom et Prénom du Chargé d'Accueil :</strong></label>
+                                <input type="text" class="form-control" id="nom-agent" name="nom-agent"> <!-- Champ pour le nom de l'agent traitant -->
+                            </td>
+                        </tr>
+                    </thead>
+                    
+                </table>
+            </section>
+
+            <input type="submit" class="btn-submit" value="Envoyer">
+
+            <div class="footer-note">
+                <p>Nous vous rappelons que nos services sont entièrement gratuits et sans contrepartie. Infoline : 27 20 25 12 12</p>
+                <div class="footer-logo">
+                    <img src="logo.jpg" alt="Logo">
+                </div>
+            </div>
+        </form>
+        
+    </div>
+    <script src="fich.js"></script>
+</body>
+</html>

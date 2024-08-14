@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Signature Form</title>
+    <style>
+        #signature-pad {
+            border: 1px solid #000;
+            width: 500px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Signature Form</h1>
+    <form id="signature-form" method="POST">
+        <canvas id="signature-pad" width="500" height="300"></canvas>
+        <button type="button" onclick="clearSignature()">Clear</button>
+        <input type="hidden" name="signature" id="signature">
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        const canvas = document.getElementById('signature-pad');
+        const context = canvas.getContext('2d');
+        let drawing = false;
+
+        canvas.addEventListener('mousedown', () => { drawing = true; });
+        canvas.addEventListener('mouseup', () => { drawing = false; });
+        canvas.addEventListener('mousemove', draw);
+
+        function draw(event) {
+            if (!drawing) return;
+            context.lineWidth = 2;
+            context.lineCap = 'round';
+            context.strokeStyle = 'black';
+
+            context.lineTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+            context.stroke();
+            context.beginPath();
+            context.moveTo(event.clientX - canvas.offsetLeft, event.clientY - canvas.offsetTop);
+        }
+
+        function clearSignature() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            document.getElementById('signature').value = '';
+        }
+
+        document.getElementById('signature-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const dataUrl = canvas.toDataURL('image/png');
+            document.getElementById('signature').value = dataUrl;
+            this.submit();
+        });
+    </script>
+</body>
+</html>
